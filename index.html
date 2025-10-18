@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futuristic Crop Recommender</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        :root {
+            /* New Refined Color Palette */
+            --primary-glow: #00f5c3;      /* Vibrant Cyan */
+            --secondary-accent: #9d72ff; /* Soft Purple */
+            --background-dark: #0D0221;  /* Deep Space Blue */
+            --container-bg: rgba(10, 2, 35, 0.6); /* Transparent Dark Blue */
+            --border-color: rgba(157, 114, 255, 0.3); /* Faint Purple Border */
+            --text-light: #f0f0f0;
+            --text-dark: #a0a0a0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--background-dark);
+            background-image: 
+                linear-gradient(rgba(13, 2, 33, 0.95), rgba(13, 2, 33, 0.95)),
+                url('https://www.transparenttextures.com/patterns/cubes.png');
+            color: var(--text-light);
+            padding: 2rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--container-bg);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            padding: 2.5rem 3rem;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 0 50px rgba(157, 114, 255, 0.2);
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            text-shadow: 0 0 10px var(--primary-glow), 0 0 20px var(--primary-glow);
+        }
+
+        .subtitle {
+            color: var(--text-dark);
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .slider-group {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+        
+        .slider-group:hover {
+            background-color: rgba(157, 114, 255, 0.1);
+        }
+
+        .slider-label {
+            font-weight: 400;
+            color: var(--text-light);
+            text-align: left;
+            display: flex;
+            align-items: center;
+        }
+        
+        .slider-label i {
+            margin-right: 12px;
+            color: var(--secondary-accent);
+            width: 20px;
+            text-align: center;
+        }
+
+        .slider-value {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-glow);
+            width: 80px;
+            text-align: center;
+        }
+        
+        /* Custom Slider Styles */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            border: 3px solid var(--primary-glow);
+            box-shadow: 0 0 10px var(--primary-glow);
+            transition: transform 0.2s;
+        }
+        
+        input[type="range"]:active::-webkit-slider-thumb {
+            transform: scale(1.2);
+        }
+
+        /* For Firefox */
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            border: 3px solid var(--primary-glow);
+            box-shadow: 0 0 10px var(--primary-glow);
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: transparent;
+            border: 2px solid var(--primary-glow);
+            border-radius: 50px;
+            color: var(--primary-glow);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px var(--primary-glow);
+            margin-top: 2rem;
+        }
+
+        .submit-btn:hover {
+            background: var(--primary-glow);
+            color: #000;
+            box-shadow: 0 0 30px var(--primary-glow);
+        }
+
+        .result {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(0, 245, 195, 0.1);
+            border: 1px solid var(--primary-glow);
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 245, 195, 0.3);
+        }
+
+        .result h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #fff;
+            text-shadow: 0 0 8px var(--primary-glow);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Crop AI</h1>
+        <p class="subtitle">Calibrate the environmental parameters for an optimal crop recommendation.</p>
+
+        <form action="/" method="POST">
+            <div class="form-grid">
+                
+                <div class="slider-group">
+                    <label class="slider-label" for="nitrogen"><i class="fas fa-seedling"></i> Nitrogen (N)</label>
+                    <input type="range" name="nitrogen" id="nitrogen" min="0" max="140" step="1" value="90" class="slider">
+                    <span class="slider-value">90</span>
+                </div>
+                
+                <div class="slider-group">
+                    <label class="slider-label" for="phosphorus"><i class="fas fa-vial"></i> Phosphorus (P)</label>
+                    <input type="range" name="phosphorus" id="phosphorus" min="5" max="145" step="1" value="42" class="slider">
+                    <span class="slider-value">42</span>
+                </div>
+
+                <div class="slider-group">
+                    <label class="slider-label" for="potassium"><i class="fas fa-flask"></i> Potassium (K)</label>
+                    <input type="range" name="potassium" id="potassium" min="5" max="205" step="1" value="43" class="slider">
+                    <span class="slider-value">43</span>
+                </div>
+
+                <div class="slider-group">
+                    <label class="slider-label" for="temperature"><i class="fas fa-thermometer-half"></i> Temp (°C)</label>
+                    <input type="range" name="temperature" id="temperature" min="0" max="50" step="0.1" value="20.8" class="slider">
+                    <span class="slider-value">20.8</span>
+                </div>
+
+                <div class="slider-group">
+                    <label class="slider-label" for="humidity"><i class="fas fa-tint"></i> Humidity (%)</label>
+                    <input type="range" name="humidity" id="humidity" min="10" max="100" step="0.1" value="82.0" class="slider">
+                    <span class="slider-value">82.0</span>
+                </div>
+
+                <div class="slider-group">
+                    <label class="slider-label" for="ph"><i class="fas fa-water"></i> Soil pH</label>
+                    <input type="range" name="ph" id="ph" min="3" max="10" step="0.1" value="6.5" class="slider">
+                    <span class="slider-value">6.5</span>
+                </div>
+                
+                <div class="slider-group">
+                    <label class="slider-label" for="rainfall"><i class="fas fa-cloud-rain"></i> Rainfall (mm)</label>
+                    <input type="range" name="rainfall" id="rainfall" min="20" max="300" step="0.1" value="202.9" class="slider">
+                    <span class="slider-value">202.9</span>
+                </div>
+                
+            </div>
+            <button type="submit" class="submit-btn">Analyze & Recommend</button>
+        </form>
+
+        {% if result %}
+        <div class="result">
+            <h2>{{ result }}</h2>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        document.querySelectorAll('.slider').forEach(slider => {
+            const valueSpan = slider.nextElementSibling;
+
+            // Function to update the slider's visual feedback
+            const updateSliderVisual = (input) => {
+                const value = parseFloat(input.value);
+                const min = parseFloat(input.min);
+                const max = parseFloat(input.max);
+                const percentage = ((value - min) / (max - min)) * 100;
+                
+                // Update the text value
+                const step = parseFloat(input.step);
+                valueSpan.textContent = Number.isInteger(step) ? value.toFixed(0) : value.toFixed(1);
+
+                // Update the background gradient for the track fill effect
+                const color = getComputedStyle(document.documentElement).getPropertyValue('--primary-glow');
+                input.style.background = `linear-gradient(to right, ${color} ${percentage}%, rgba(0,0,0,0.3) ${percentage}%)`;
+            };
+            
+            // Initial update on page load
+            updateSliderVisual(slider);
+
+            // Update on input change
+            slider.addEventListener('input', (e) => {
+                updateSliderVisual(e.target);
+            });
+        });
+    </script>
+</body>
+</html>
